@@ -5,6 +5,9 @@ import { makeStyles } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 const useStyle = makeStyles((theme) => ({
+  headerMain:{
+    marginBottom:"20px"
+  },
   logo: { flexGrow: "1", justifyContent: "initial" },
   menuitem: {
     marginRight: theme.spacing(2),
@@ -14,7 +17,7 @@ const useStyle = makeStyles((theme) => ({
 function Header(props) {
   const classes = useStyle();
   return (
-    <div>
+    <div className={classes.headerMain}>
       <AppBar position="static">
         <Toolbar>
           <div className={classes.logo}>
