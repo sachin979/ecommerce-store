@@ -1,16 +1,16 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../images/logo.png";
 import { makeStyles } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 const useStyle = makeStyles((theme) => ({
-  headerMain:{
-    marginBottom:"20px"
+  headerMain: {
+    marginBottom: "20px",
   },
   logo: { flexGrow: "1", justifyContent: "initial" },
   menuitem: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(3),
   },
 }));
 
@@ -32,7 +32,7 @@ function Header(props) {
           <Typography className={classes.menuitem} variant="body1">
             More
           </Typography>
-          <IconButton>
+          <IconButton color="secondary">
             <ShoppingCartIcon />
           </IconButton>
         </Toolbar>

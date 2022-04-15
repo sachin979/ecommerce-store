@@ -1,7 +1,9 @@
-import React from "react";
+import React,{useState} from "react";
 
 const Cart = () => {
-  return <div>Cart</div>;
+  return <div>
+    cart
+  </div>;
 };
 
 export default Cart;
