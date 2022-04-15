@@ -36,7 +36,7 @@ function ProductCard(props) {
         <img className={classes.img} src={props.image} alt="" />
       </div>
       <div className={classes.secRow}>
-        <Typography variant="body1" noWrap="true" style={{ fontWeight: "bold" }}>
+        <Typography variant="body1" noWrap={true} style={{ fontWeight: "bold" }}>
           {props.title}
         </Typography>
         <div className={classes.pricing}>
