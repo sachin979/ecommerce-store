@@ -25,21 +25,6 @@ import {
 } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core";
 
-import img from "./images/img1.jpg";
-
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Poppins", "sans-serif"].join(","),
-  },
-  palette: {
-    primary: {
-      main: "#fff",
-    },
-    secondary: {
-      main: "#000",
-    },
-  },
-});
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -139,61 +124,58 @@ function App() {
     console.log("use effect 2");
     getProducts(category);
   }, [category]);
-
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <Header />
-
-        <Container maxWidth="md">
-          <div>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="category">Categories</InputLabel>
-              <Select
-                label="Categories"
-                inputProps={{
-                  name: "category",
-                  id: "category",
-                }}
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                color="primary"
-              >
-                {categories
-                  ? categories.map((ctgry) => {
-                      return (
-                        <MenuItem value={ctgry} color="primary">
-                          {ctgry}
-                        </MenuItem>
-                      );
-                    })
-                  : "Nothnh"}
-              </Select>
-            </FormControl>
-          </div>
-          <Grid container justifyContent="center">
-            {!backdropOpen ? (
-              products.map((prod) => {
-                return (
-                  <Grid item className={classes.prodGrid} key={prod.id} xs={12} sm={5} md={4}>
-                    <ProductCard
-                      image={prod.image}
-                      title={prod.title}
-                      price={prod.price}
-                      rate={prod.rating.rate}
-                    />
-                  </Grid>
-                );
-              })
-            ) : (
-              <Backdrop className={classes.backdrop} open={backdropOpen}>
-                <CircularProgress color="inherit" />
-              </Backdrop>
-            )}
-          </Grid>
-        </Container>
-      </div>
-    </ThemeProvider>
+    <div className="App">
+      <Header />
+      <Container maxWidth="md">
+        <div>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="category">Categories</InputLabel>
+            <Select
+              label="Categories"
+              inputProps={{
+                name: "category",
+                id: "category",
+              }}
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              color="primary"
+            >
+              {categories
+                ? categories.map((ctgry) => {
+                    return (
+                      <MenuItem value={ctgry} color="primary">
+                        {ctgry}
+                      </MenuItem>
+                    );
+                  })
+                : "Nothnh"}
+            </Select>
+          </FormControl>
+        </div>
+        <Grid container justifyContent="center">
+          {!backdropOpen ? (
+            products.map((prod) => {
+              return (
+                <Grid item className={classes.prodGrid} key={prod.id} xs={12} sm={5} md={4}>
+                  <ProductCard
+                    image={prod.image}
+                    title={prod.title}
+                    price={prod.price}
+                    rate={prod.rating.rate}
+                    id={prod.id}
+                  />
+                </Grid>
+              );
+            })
+          ) : (
+            <Backdrop className={classes.backdrop} open={backdropOpen}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          )}
+        </Grid>
+      </Container>
+    </div>
   );
 }
 

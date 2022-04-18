@@ -1,5 +1,9 @@
 import React from "react";
 import { makeStyles, Card, Typography, Button } from "@material-ui/core";
+import { removefromcart } from "../actions/Index";
+import { addtocart } from "../actions/Index";
+import { cartproducts } from "../actions/Index";
+import { useDispatch, useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   prodCard: {
     height: "300px",
@@ -30,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 function ProductCard(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
   return (
     <Card className={classes.prodCard}>
       <div className={classes.imgDiv}>
@@ -43,7 +49,14 @@ function ProductCard(props) {
           <Typography variant="subtitle1">₹{props.price}</Typography>
           <Typography variant="subtitle1">{props.rate}⭐</Typography>
         </div>
-        <Button size="small" color="secondary" variant="contained">
+        <Button
+          size="small"
+          color="secondary"
+          variant="contained"
+          onClick={() => {
+            dispatch(addtocart(props.id));
+          }}
+        >
           Add to Cart
         </Button>
       </div>

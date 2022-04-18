@@ -10,16 +10,16 @@ import {
   ListItemText,
   useTheme,
   useMediaQuery,
+  Badge,
 } from "@material-ui/core";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import InboxIcon from "@material-ui/icons/Inbox";
-import MailIcon from "@material-ui/icons/Mail";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import MenuIcon from "@material-ui/icons/Menu";
 import CategoryIcon from "@material-ui/icons/Category";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/More";
-
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 const useStyle = makeStyles((theme) => ({
   headerMain: {
     marginBottom: "20px",
@@ -43,6 +43,10 @@ function Header(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const classes = useStyle();
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  let cartCount = cart.length;
+  console.log(cartCount);
   return (
     <div className={classes.headerMain}>
       <AppBar position="static">
@@ -103,8 +107,10 @@ function Header(props) {
             ""
           )}
 
-          <IconButton color="secondary">
-            <ShoppingCartIcon />
+          <IconButton color="secondary" href="/cart">
+            <Badge badgeContent={cartCount} color="secondary">
+              <ShoppingCartIcon />
+            </Badge>
           </IconButton>
         </Toolbar>
       </AppBar>
