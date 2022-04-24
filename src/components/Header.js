@@ -18,8 +18,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import CategoryIcon from "@material-ui/icons/Category";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/More";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import quantity from "./../reducer/cartQuantity";
 const useStyle = makeStyles((theme) => ({
   headerMain: {
     marginBottom: "20px",
@@ -43,10 +44,14 @@ function Header(props) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
   const classes = useStyle();
-  const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  let cartCount = cart.length;
-  console.log(cartCount);
+  var quantity = useSelector((state) => state.quantity);
+  const [cartCount, setcartCount] = useState();
+  useEffect(() => {
+    let tempcartcount = 0;
+    quantity.forEach((i) => (tempcartcount += i));
+    setcartCount(tempcartcount);
+  }, [quantity]);
+
   return (
     <div className={classes.headerMain}>
       <AppBar position="static">
@@ -89,7 +94,10 @@ function Header(props) {
           )}
 
           <div className={classes.logo}>
-            <img src={logo} alt="logo" />
+            <Link to="/">
+              {" "}
+              <img src={logo} alt="logo" />
+            </Link>
           </div>
           {!isMobile ? (
             <React.Fragment>
@@ -106,12 +114,13 @@ function Header(props) {
           ) : (
             ""
           )}
-
-          <IconButton color="secondary" href="/cart">
-            <Badge badgeContent={cartCount} color="secondary">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
+          <Link to="/cart">
+            <IconButton color="secondary">
+              <Badge badgeContent={cartCount} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>

@@ -24,6 +24,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core";
+import { getcartproducts } from "./actions/Index";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -88,12 +89,10 @@ function App() {
     } else {
       var url = "https://fakestoreapi.com/products/category/" + params;
     }
-    console.log(url);
     setbackdropOpen(true);
     await axios
       .get(url)
       .then((res) => {
-        console.log(res.data);
         setProducts(res.data);
       })
       .catch((err) => console.error(err));
@@ -103,25 +102,21 @@ function App() {
     await axios
       .get("https://fakestoreapi.com/products/categories")
       .then((res) => {
-        console.log(res.data);
         setCategories(res.data);
       })
       .catch((err) => console.log(err));
   };
   useEffect(() => {
-    console.log("use effect 1");
     getProducts();
     getCategories();
   }, []);
   //After Selecting category
   const isFirstRun = useRef(true);
   useEffect(() => {
-    console.log(isFirstRun);
     if (isFirstRun.current) {
       isFirstRun.current = false;
       return;
     }
-    console.log("use effect 2");
     getProducts(category);
   }, [category]);
   return (

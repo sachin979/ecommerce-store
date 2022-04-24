@@ -1,0 +1,10 @@
+<Badge badgeContent={cartCount} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+
+
+              const ob=[{
+                1:{
+                  
+                }
+              }]
