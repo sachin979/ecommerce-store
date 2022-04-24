@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import store from "./store/Index";
 import Routes from "./Routes/Routes";
 import { ThemeProvider, createTheme } from "@material-ui/core";
-//store.subscribe(() => console.log(store.getState()));
 
 const theme = createTheme({
   typography: {
