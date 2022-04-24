@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import { Card, makeStyles, Grid, Typography, Container, Divider } from "@material-ui/core";
-import img from "../images/img1.jpg";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { addQuantity, removeQuantity, removefromcart } from "../actions/Index";
+import { useDispatch } from "react-redux";
 const useStyle = makeStyles((theme) => ({
   leftContainer: {
     backgroundColor: "#ddd",
@@ -71,41 +72,59 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 const Cart = () => {
+  const fech = async (i) => {
+    await axios
+      .get(url + i)
+      .then((resp) => {
+        let obj = { [i]: resp.data };
+        setcartProduct((cartProduct) => [...cartProduct, { ...resp.data, quantity: 1 }]);
+      })
+      .catch((err) => console.log(err));
+  };
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const quantity = useSelector((state) => state.quantity);
   const url = "https://fakestoreapi.com/products/";
   const classes = useStyle();
   const [cartProduct, setcartProduct] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
   useEffect(() => {
     cart.forEach((i) => {
-      const fech = async () => {
-        await axios
-          .get(url + i)
-          .then((resp) => {
-            let obj = { [i]: resp.data };
-            setcartProduct((cartProduct) => [...cartProduct, { ...resp.data, quantity: 1 }]);
-          })
-          .catch((err) => console.log(err));
-      };
-      fech();
+      fech(i);
     });
   }, []);
   useEffect(() => console.log(cartProduct), [cartProduct]);
+  useEffect(() => console.log(cart), [cart]);
+  useEffect(() => console.log(quantity), [quantity]);
 
-  const decCount = (obj) => {
-    console.log(obj);
-    let index = cartProduct.indexOf(obj);
-    if (obj.quantity == 1) {
-      setcartProduct([...cartProduct.slice(0, index), ...cartProduct.slice(index + 1)]);
+  const decCount = (id) => {
+    //console.log(id);
+    let index = cart.indexOf(id);
+    var productArrIndex;
+    //  console.log(index);
+    if (quantity[index] == 1) {
+      console.log("if");
+      cartProduct.forEach((i, index) => {
+        if (i.id == id) {
+          productArrIndex = index;
+        }
+      });
+      setcartProduct([
+        ...cartProduct.slice(0, productArrIndex),
+        ...cartProduct.slice(productArrIndex + 1),
+      ]);
+      dispatch(removeQuantity(index));
+      dispatch(removefromcart(id));
     } else {
-      obj.quantity = obj.quantity + 1;
-      setcartProduct([...cartProduct.slice(0, index), obj, ...cartProduct.slice(index + 1)]);
+      console.log("else");
+      // obj.quantity = obj.quantity + 1;
+      dispatch(removeQuantity(index));
     }
   };
-  const incCount = (obj) => {
-    console.log(obj);
-    let index = cartProduct.indexOf(obj);
-    obj.quantity = obj.quantity + 1;
-    setcartProduct([...cartProduct.slice(0, index), obj, ...cartProduct.slice(index + 1)]);
+  const incCount = (id) => {
+    let index = cart.indexOf(id);
+    dispatch(addQuantity(index));
+    //setcartProduct([...cartProduct.slice(0, index), obj, ...cartProduct.slice(index + 1)]);
     //setcartProduct((cartProduct) => [...cartProduct, { [id]: { quantity: quantity + 1 } }]);
   };
   return (
@@ -133,11 +152,13 @@ const Cart = () => {
                           <Grid item sm={5} xs={12} className={classes.centerText}>
                             <Typography>Quantity</Typography>
                             <div className={classes.quantity}>
-                              <span className={classes.minus} onClick={() => decCount(element)}>
+                              <span className={classes.minus} onClick={() => decCount(element.id)}>
                                 -
                               </span>{" "}
-                              <span className={classes.itemCount}>{element.quantity}</span>{" "}
-                              <span className={classes.plus} onClick={() => incCount(element)}>
+                              <span className={classes.itemCount}>
+                                {quantity[cart.indexOf(element.id)]}
+                              </span>{" "}
+                              <span className={classes.plus} onClick={() => incCount(element.id)}>
                                 +
                               </span>
                             </div>

@@ -38,9 +38,11 @@ function ProductCard(props) {
   const cart = useSelector((state) => state.cart);
   const handleCart = (id) => {
     if (cart.includes(id)) {
+      console.log("if");
       let index = cart.indexOf(id);
       dispatch(addQuantity(index));
     } else {
+      console.log("else");
       dispatch(addtocart(id));
       dispatch(addQuantity(cart.length));
     }

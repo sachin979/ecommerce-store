@@ -3,23 +3,22 @@ const initialQuantity = [];
 const quantity = (state = initialQuantity, action) => {
   switch (action.type) {
     case "ADD_QUANTITY":
-      if (!state[action.payload]) {
-        console.log("if");
-        //state.push(1);
+      if (state[action.payload]) {
+        let newstate = [...state];
+        newstate[action.payload] = newstate[action.payload] + 1;
+        return newstate;
+      } else {
         const state1 = [...state, 1];
         return state1;
-      } else {
-        console.log("else");
-
-        state[action.payload] = state[action.payload] + 1;
-        return state;
       }
     case "REMOVE_QUANTITY":
       if (state[action.payload] == 1) {
-        return [...state.slice(0, action.index, ...state.slice(action.index + 1))];
+        console.log(action.payload, state[action.payload]);
+        return state.filter((i, index) => index != action.payload);
       } else {
-        state[action.payload] = state[action.payload] - 1;
-        return state;
+        let newstate = [...state];
+        newstate[action.payload] = newstate[action.payload] - 1;
+        return newstate;
       }
     default:
       return state;
