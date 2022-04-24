@@ -13,7 +13,6 @@ const quantity = (state = initialQuantity, action) => {
       }
     case "REMOVE_QUANTITY":
       if (state[action.payload] == 1) {
-        console.log(action.payload, state[action.payload]);
         return state.filter((i, index) => index != action.payload);
       } else {
         let newstate = [...state];

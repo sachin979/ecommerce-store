@@ -89,21 +89,38 @@ const Cart = () => {
   const [cartProduct, setcartProduct] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
   useEffect(() => {
+    var tempsubtotal = 0;
     cart.forEach((i) => {
       fech(i);
     });
+    cart.forEach((i) => {
+      console.log(i);
+      cartProduct.forEach((cartItem) => {
+        console.log(cartItem);
+        if (cartItem.id == i) {
+          tempsubtotal += cartItem.price;
+        }
+      });
+    });
+    setSubtotal(tempsubtotal);
   }, []);
-  useEffect(() => console.log(cartProduct), [cartProduct]);
-  useEffect(() => console.log(cart), [cart]);
-  useEffect(() => console.log(quantity), [quantity]);
+  /* useEffect(() =>
+    console.log(cartProduct),
+    [cartProduct]
+  );
+  useEffect(() =>
+    console.log(cart),
+    [cart]
+  );
+  useEffect(() =>
+    console.log(quantity),
+    [quantity]
+  );*/
 
   const decCount = (id) => {
-    //console.log(id);
     let index = cart.indexOf(id);
     var productArrIndex;
-    //  console.log(index);
     if (quantity[index] == 1) {
-      console.log("if");
       cartProduct.forEach((i, index) => {
         if (i.id == id) {
           productArrIndex = index;
@@ -116,7 +133,6 @@ const Cart = () => {
       dispatch(removeQuantity(index));
       dispatch(removefromcart(id));
     } else {
-      console.log("else");
       // obj.quantity = obj.quantity + 1;
       dispatch(removeQuantity(index));
     }
@@ -193,7 +209,7 @@ const Cart = () => {
                   <Typography>Total</Typography>
                 </Grid>
                 <Grid item xs={6} style={{ textAlign: "right" }}>
-                  <Typography>5454</Typography>
+                  <Typography>{subtotal}</Typography>
 
                   <Typography>1234</Typography>
                   <Divider></Divider>

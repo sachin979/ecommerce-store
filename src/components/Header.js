@@ -47,7 +47,6 @@ function Header(props) {
   var quantity = useSelector((state) => state.quantity);
   const [cartCount, setcartCount] = useState();
   useEffect(() => {
-    console.log("header change");
     let tempcartcount = 0;
     quantity.forEach((i) => (tempcartcount += i));
     setcartCount(tempcartcount);
